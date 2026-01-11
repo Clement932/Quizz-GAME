@@ -2,170 +2,243 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PokéQuest - Master Edition</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <header>
-        <div class="logo">Poké<span class="red-text">Quest</span> <span id="prestige-star"></span></div>
-        
-        <div class="game-info">
-            <div class="top-row-info">
-                <span class="currency-display">💰 <span id="user-money">0</span></span>
-                <div class="lives-container" id="lives-display">❤️❤️❤️</div>
+    <div id="loader-overlay" class="hidden">
+        <div class="pokeball-spinner"></div>
+        <p>Recherche de Pokémon sauvages...</p>
+    </div>
+
+    <div id="bg-layer"></div>
+    <div id="confetti-container"></div> <header>
+        <div class="header-content">
+            <div class="logo" id="header-logo-btn">
+                <div class="logo-icon">⚡</div>
+                <div>Poké<span>Quest</span></div>
             </div>
-            <div class="score-info">
-                <span>Score: <strong id="current-score">0</strong></span>
-                <span class="small-text">Record: <strong id="high-score">0</strong></span>
+            
+            <div class="stats-pill">
+                <div class="stat-item">
+                    <span>💎</span>
+                    <span id="user-money">0</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span>❤️</span>
+                    <span id="lives-display">3</span>
+                </div>
             </div>
         </div>
     </header>
 
     <main>
-        <section id="home-section" class="active">
-            <div class="hero-card">
+        <section id="landing-section" class="active fade-in">
+            <div class="hero-content">
+                <div class="hero-logo-big">⚡</div>
                 <h1>Prêt pour l'aventure ?</h1>
-                <p>Survivras-tu au mode Arcade ?</p>
+                <p>Deviens le meilleur dresseur en testant tes connaissances !</p>
                 
-                <div class="menu-grid">
-                    <button id="shop-btn" class="nav-btn">🏪 Boutique</button>
-                    <button id="achievements-btn" class="nav-btn">🏆 Succès</button>
-                    <button id="view-dex-btn" class="nav-btn">📖 Pokédex</button>
+                <button id="btn-enter-game" class="main-cta hover-scale">
+                    <span>▶ JOUER</span>
+                </button>
+
+                <div class="mini-links">
+                    <button id="landing-dex-btn" class="secondary-btn">📖 Pokédex</button>
+                    <button id="landing-ach-btn" class="secondary-btn">🏆 Succès</button>
                 </div>
-
-                <div class="settings-box">
-                    <div class="setting-group">
-                        <label>Génération :</label>
-                        <select id="gen-select">
-                            <option value="1">Génération 1 (Kanto)</option>
-                            <option value="2">Génération 2 (Johto)</option>
-                            <option value="3">Génération 3 (Hoenn)</option>
-                            <option value="4">Génération 4 (Sinnoh)</option>
-                            <option value="5">Génération 5 (Unys)</option>
-                            <option value="6">Génération 6 (Kalos)</option>
-                            <option value="7">Génération 7 (Alola)</option>
-                            <option value="8">Génération 8 (Galar)</option>
-                            <option value="9">Génération 9 (Paldea)</option>
-                            <option value="all">Toutes les générations !</option>
-                        </select>
-                    </div>
-
-                    <div class="setting-group">
-                        <label>Mode de jeu :</label>
-                        <div class="toggle-container">
-                            <input type="checkbox" id="shiny-toggle">
-                            <label for="shiny-toggle" class="toggle-label">
-                                <span class="mode-text">Normal</span>
-                                <span class="mode-text shiny-text">✨ Shiny</span>
-                                <div class="toggle-ball"></div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <button id="start-btn" class="big-btn">JOUER</button>
-                
-                <button id="prestige-btn" class="big-btn prestige-hidden">👑 PASSER PRESTIGE</button>
             </div>
         </section>
 
-        <section id="quiz-section" class="hidden">
-            <div class="quiz-container" id="quiz-card">
+        <section id="mode-selection-section" class="hidden">
+            <div class="section-title">
+                <h2>Choisis ton mode</h2>
+            </div>
+
+            <div class="settings-panel">
+                <div class="setting-row">
+                    <label>Génération</label>
+                    <select id="gen-select">
+                        <option value="1">Gen 1 (Kanto)</option>
+                        <option value="2">Gen 2 (Johto)</option>
+                        <option value="3">Gen 3 (Hoenn)</option>
+                        <option value="4">Gen 4 (Sinnoh)</option>
+                        <option value="5">Gen 5 (Unys)</option>
+                        <option value="6">Gen 6 (Kalos)</option>
+                        <option value="7">Gen 7 (Alola)</option>
+                        <option value="8">Gen 8 (Galar)</option>
+                        <option value="9">Gen 9 (Paldea)</option>
+                        <option value="all">Toutes (1-9)</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <label>Mode Shiny ✨</label>
+                    <label class="switch">
+                        <input type="checkbox" id="shiny-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="modes-grid">
+                <button class="mode-card hover-scale" data-mode="quiz">
+                    <span class="icon">❓</span>
+                    <div class="text">
+                        <h3>Quiz</h3>
+                        <small>Devine l'ombre</small>
+                    </div>
+                </button>
+
+                <button class="mode-card hover-scale" data-mode="hangman">
+                    <span class="icon">🔤</span>
+                    <div class="text">
+                        <h3>Pendu</h3>
+                        <small>Devine le nom</small>
+                    </div>
+                </button>
+
+                <button class="mode-card hover-scale" data-mode="stat">
+                    <span class="icon">📊</span>
+                    <div class="text">
+                        <h3>Stats</h3>
+                        <small>Qui est le plus fort ?</small>
+                    </div>
+                </button>
+            </div>
+
+            <div class="nav-grid">
+                <button id="shop-btn" class="nav-card shop-color hover-scale">🏪 Boutique</button>
+                <button id="prestige-btn" class="nav-card prestige-color hidden hover-scale">👑 Prestige</button>
+            </div>
+            
+            <button class="text-btn back-to-landing">← Accueil</button>
+        </section>
+
+        <section id="game-interface-section" class="hidden">
+            <div class="game-card">
+                <div class="game-header">
+                    <div class="score-badge">Score: <span id="current-score">0</span></div>
+                    <div id="combo-display" class="combo-hidden">🔥 x<span id="combo-count">0</span></div>
+                </div>
+
                 <div class="timer-container">
                     <div id="timer-fill"></div>
                 </div>
 
-                <div class="inventory-bar">
-                    <button id="use-berry" class="item-slot" title="Geler le temps">
-                        🫐 <span id="qty-berry">0</span>
-                    </button>
-                    <button id="use-masterball" class="item-slot" title="Capture auto">
-                        🔮 <span id="qty-masterball">0</span>
-                    </button>
-                </div>
-
-                <div class="pokemon-display">
-                    <img id="poke-img" src="" alt="Pokemon Mystère" class="silhouette">
+                <div class="visual-stage">
+                    <div id="hunter-target-display" class="hidden">
+                        <span>TYPE CIBLE</span>
+                        <h2 id="hunter-type-text">FEU</h2>
+                    </div>
+                    <img id="poke-img" src="" alt="Pokemon" class="silhouette float-anim">
                 </div>
                 
-                <div class="question-row">
+                <div class="question-box">
                     <h2 id="question-text">Qui est ce Pokémon ?</h2>
-                    <button id="hint-btn" class="hint-btn" title="Coûte 2 points">
-                        💡 50/50 <span class="cost">(-2 pts)</span>
-                    </button>
+                    <button id="hint-btn" class="hint-btn">💡 Indice (-2)</button>
                 </div>
-                
-                <div class="options-grid" id="options-container"></div>
 
-                <div id="pokemon-info" class="hidden">
-                    <h3 id="info-name"></h3>
-                    <div class="types" id="info-types"></div>
-                    <button id="next-btn" class="action-btn">Continuer ➝</button>
+                <div id="game-input-area">
+                    <div id="options-container" class="grid-2x2 hidden"></div>
+                    
+                    <div id="hangman-interface" class="hidden">
+                        <div id="word-display" class="word-slots">_ _ _ _</div>
+                        <div class="keyboard-container" id="keyboard-grid"></div>
+                        <p class="keyboard-hint">Tapez sur votre clavier ou cliquez</p>
+                    </div>
+                </div>
+
+                <div id="pokemon-info" class="info-popup hidden">
+                    <div class="popup-content">
+                        <h3 id="info-result-title">Gagné !</h3>
+                        <h2 id="info-name">Pikachu</h2>
+                        <div class="types-row" id="info-types"></div>
+                        <button id="next-btn" class="next-btn pulse-btn">Continuer ➝</button>
+                    </div>
                 </div>
             </div>
+            
+            <div class="items-bar">
+                <button id="use-berry" class="item-btn hover-scale">❄️ <span id="qty-berry">0</span></button>
+                <button id="use-smoke" class="item-btn hover-scale">💨 <span id="qty-smoke">0</span></button>
+                <button id="use-masterball" class="item-btn hover-scale">🔮 <span id="qty-masterball">0</span></button>
+            </div>
+
+            <button id="quit-game-btn" class="text-btn margin-top">← Quitter la partie</button>
         </section>
 
         <section id="shop-section" class="hidden">
-            <h2>Boutique Pokémon</h2>
-            <div class="currency-banner">Solde : <span id="shop-money">0</span> 💰</div>
-            
-            <div class="shop-grid">
-                <div class="shop-item">
-                    <div class="item-icon">💊</div>
-                    <h3>Potion</h3>
-                    <p>Rend 1 vie immédiatement.</p>
-                    <button class="buy-btn" data-item="potion" data-cost="50">Acheter (50💰)</button>
+            <div class="header-row">
+                <button class="icon-back back-btn">←</button>
+                <h2>Boutique</h2>
+                <div class="money-badge">💎 <span id="shop-money">0</span></div>
+            </div>
+            <div class="list-vertical">
+                <div class="list-item">
+                    <span class="emoji">❄️</span>
+                    <div class="details"><strong>Baie Gel</strong><small>Arrête le temps</small></div>
+                    <button class="buy-btn" data-item="berry" data-cost="100">100💎</button>
                 </div>
-                <div class="shop-item">
-                    <div class="item-icon">🫐</div>
-                    <h3>Baie Nanana</h3>
-                    <p>Gèle le temps pour une question.</p>
-                    <button class="buy-btn" data-item="berry" data-cost="100">Acheter (100💰)</button>
+                <div class="list-item">
+                    <span class="emoji">💨</span>
+                    <div class="details"><strong>Fumigène</strong><small>Passe la question</small></div>
+                    <button class="buy-btn" data-item="smoke" data-cost="150">150💎</button>
                 </div>
-                <div class="shop-item">
-                    <div class="item-icon">🔮</div>
-                    <h3>Master Ball</h3>
-                    <p>Capture automatique (passe la question).</p>
-                    <button class="buy-btn" data-item="masterball" data-cost="300">Acheter (300💰)</button>
+                <div class="list-item">
+                    <span class="emoji">🔮</span>
+                    <div class="details"><strong>Master Ball</strong><small>Victoire auto</small></div>
+                    <button class="buy-btn" data-item="masterball" data-cost="300">300💎</button>
+                </div>
+                <div class="list-item special">
+                    <span class="emoji">❤️</span>
+                    <div class="details"><strong>Potion Max</strong><small>Récupérer une vie</small></div>
+                    <button class="buy-btn" id="buy-life-btn" data-cost="500">500💎</button>
                 </div>
             </div>
-            <button class="secondary-btn back-btn">← Retour</button>
         </section>
 
         <section id="achievements-section" class="hidden">
-            <h2>Mes Succès</h2>
-            <div id="achievements-grid" class="achievements-grid">
-                </div>
-            <button class="secondary-btn back-btn">← Retour</button>
-        </section>
-
-        <section id="game-over-section" class="hidden">
-            <div class="hero-card game-over-card">
-                <h2>GAME OVER</h2>
-                <p>L'aventure s'arrête ici.</p>
-                <div class="final-score">Score : <span id="final-score-val">0</span></div>
-                <div class="money-earned">Gains totaux : +<span id="final-money-val">0</span> 💰</div>
-                <button id="retry-btn" class="big-btn">RÉESSAYER</button>
-                <button id="home-btn" class="secondary-btn">Menu Principal</button>
+            <div class="header-row">
+                <button class="icon-back back-btn">←</button>
+                <h2>Succès</h2>
             </div>
+            <div id="achievements-grid" class="list-vertical"></div>
         </section>
 
         <section id="pokedex-section" class="hidden">
-            <div class="dex-header">
-                <h2>Collection <span id="dex-count">(0/151)</span></h2>
+            <div class="header-row">
+                <button class="icon-back back-btn">←</button>
+                <h2>Pokédex <span id="dex-count">0/151</span></h2>
             </div>
-            
-            <div class="dex-tabs">
-                <button id="tab-normal" class="tab-btn active">Normal</button>
-                <button id="tab-shiny" class="tab-btn">✨ Shinies</button>
+            <div class="tabs">
+                <button id="tab-normal" class="tab active">Normal</button>
+                <button id="tab-shiny" class="tab">✨ Shiny</button>
             </div>
-
-            <button class="secondary-btn back-btn">← Retour</button>
-            <div id="pokedex-grid" class="pokedex-grid"></div>
+            <div id="pokedex-grid" class="dex-grid"></div>
         </section>
+
+        <section id="game-over-section" class="hidden">
+            <div class="overlay-card">
+                <h1>GAME OVER</h1>
+                <div class="result-stats">
+                    <div class="stat-box">
+                        <small>Score Final</small>
+                        <strong id="final-score-val">0</strong>
+                    </div>
+                    <div class="stat-box">
+                        <small>Gains</small>
+                        <strong class="money-text">+<span id="final-money-val">0</span> 💎</strong>
+                    </div>
+                </div>
+                <button id="retry-btn" class="main-cta hover-scale">Rejouer ↺</button>
+                <button id="home-btn" class="secondary-btn margin-top">Menu Principal</button>
+            </div>
+        </section>
+
     </main>
 
     <script src="script.js"></script>
