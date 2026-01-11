@@ -634,7 +634,8 @@ function renderPokedex(type) {
     const grid = document.getElementById('pokedex-grid'); grid.innerHTML = '';
     const list = type === 'shiny' ? gameState.pokedexShiny : gameState.pokedexNormal;
     const filtered = list.filter(p => p.id >= gameState.currentGenLimits.min && p.id <= gameState.currentGenLimits.max);
-    document.getElementById('dex-count').innerText = `${filtered.length}/${gameState.currentGenLimits.max - gameState.currentGenLimits.min + 1}`;
+    //document.getElementById('dex-count').innerText = `${filtered.length}/${gameState.currentGenLimits.max - gameState.currentGenLimits.min + 1}`; ((ancienne version pour la gen choisie))
+    document.getElementById('dex-count').innerText = `${list.length}/1025`;
     if(filtered.length === 0) grid.innerHTML = '<p style="grid-column:1/-1;text-align:center">Rien ici pour le moment.</p>';
     filtered.forEach(p => { const d = document.createElement('div'); d.className = 'dex-entry'; d.innerHTML = `<img src="${p.image}"><small>#${p.id}</small>`; grid.appendChild(d); });
 }
